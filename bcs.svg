@@ -1,0 +1,14 @@
+
+<svg width="120px" height="120px" viewBox="0 0 120 120" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="风格稿2-清新" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="BCS" transform="translate(-4.000000, -4.000000)" fill-rule="nonzero">
+            <g id="Group-3">
+                <rect id="Rectangle" x="0" y="0" width="128" height="128"></rect>
+                <rect id="logo" fill="#FFD35C" x="4" y="4" width="120" height="120" rx="16"></rect>
+                <rect id="Rectangle-Copy-3" fill="#FAFAFC" opacity="0.400000006" x="26" y="46" width="62" height="56" rx="8"></rect>
+                <rect id="Rectangle-Copy-4" fill="#FAFAFC" opacity="0.400000006" x="40" y="26" width="62" height="56" rx="8"></rect>
+                <path d="M40,46 L80,46 C84.418278,46 88,49.581722 88,54 L88,82 L48,82 C43.581722,82 40,78.418278 40,74 L40,46 Z" id="Combined-Shape" fill="#FAFAFC"></path>
+            </g>
+        </g>
+    </g>
+</svg>
