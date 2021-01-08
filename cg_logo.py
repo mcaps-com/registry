@@ -25,7 +25,7 @@ def show_syms():
         #print (x)
         #print ('..')
         #print (x['symbol'][0])
-        if x['symbol'][0] == 'c':
+        if x['name'][:2] == 'Ex':
             print (x)
 
     #info = cgapi.get_coin_by_id(x['id'])
@@ -51,12 +51,16 @@ def download_file(url, local_filename):
 
     return local_filename
 
-cid = 'cover-protocol'
-info = cgapi.get_coin_by_id('cover-protocol')
-url_img = info['image']['large']
-#print ()
-download_file(url_img, cid + '.jpeg')
+def download_logo(cid):
+    info = cgapi.get_coin_by_id(cid)
+    url_img = info['image']['large']
+    #print ()
+    download_file(url_img, cid + '.jpeg')
 
+
+#show_syms()
+cid = 'exeedme'
+download_logo(cid)
 
 #telegram_channel_identifier
 #https://assets.coingecko.com/coins/images/13574/large/nftx.png
