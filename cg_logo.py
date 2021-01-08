@@ -25,7 +25,7 @@ def show_syms():
         #print (x)
         #print ('..')
         #print (x['symbol'][0])
-        if x['name'][:2] == 'Ex':
+        if x['name'][:4] == 'Shop':
             print (x)
 
     #info = cgapi.get_coin_by_id(x['id'])
@@ -59,7 +59,7 @@ def download_logo(cid):
 
 
 #show_syms()
-cid = 'exeedme'
+cid = 'shopping-io'
 download_logo(cid)
 
 #telegram_channel_identifier
