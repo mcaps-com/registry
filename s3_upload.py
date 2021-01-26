@@ -14,10 +14,9 @@ import os
 import sys
 import boto3
 
-bucket = "registry.mcaps.com"
+app_bucket = "registry.mcaps.com"
 region = 'ap-southeast-1'
 s3_client = boto3.client('s3',region_name = region)
-
 
 def upload_file(file_name, bucket, object_name):
     """
@@ -54,20 +53,6 @@ def upload_index(bucket):
         if response == None:
             print ("ok")
         #s3.meta.client.upload_file('/tmp/hello.txt', 'mybucket', 'hello.txt')
-        else:
-            print ("response ",response )
-    except ClientError as e:
-        print("error ",e)   
-
-def upload(bucket, file_name):
-    try:        
-        object_name = file_name
-        print ("upload_file: filename, bucketname, object\n ",file_name, bucket, object_name)
-        eargs = {'ACL':'public-read'}
-        response = s3_client.upload_file(file_name, bucket, object_name, ExtraArgs=eargs)
-        if response == None:
-            print ("ok")
-        
         else:
             print ("response ",response )
     except ClientError as e:
@@ -124,9 +109,10 @@ def list_files(bucket):
 
 def upload_dir(bucket, wdir):
     # enumerate local files recursively
-    print("upload to bucket %s" % bucket)
+    print("upload to bucket %s" % bucket, wdir)
     for root, dirs, files in os.walk(wdir):
         for filename in files:
+            print ("upload ", filename)
             # construct the full local path
             local_path = os.path.join(root, filename)
 
@@ -137,14 +123,13 @@ def upload_dir(bucket, wdir):
                 #s3_client.head_object(Bucket=bucket, Key=s3_path)
 
                 eargs = {'ACL': 'public-read'}
-                #figure out content type
-                if filename == "index.html":
-                    eargs['ContentType'] = 'text/html'
-                elif ".js" in filename:
-                    eargs['ContentType'] = 'application/javascript'
-                elif ".css" in filename:
-                    eargs['ContentType'] = 'text/css'
-                
+                # #figure out content type
+                # if filename == "index.html":
+                #     eargs['ContentType'] = 'text/html'
+                # elif ".js" in filename:
+                #     eargs['ContentType'] = 'application/javascript'
+                # elif ".css" in filename:
+                #     eargs['ContentType'] = 'text/css'            
 
                 response = s3_client.upload_file(
                     local_path, bucket, s3_path, ExtraArgs=eargs)
@@ -172,14 +157,11 @@ def delete_contents(bucket):
 
 
 if __name__=='__main__':
-    create_bucket(bucket, region)
-    #https://s3-ap-southeast-1.amazonaws.com/registry.mcaps.com/test.txt
-    upload(bucket, "test.txt")
-    list_files(bucket)
+    #upload_index(rt_bucket)
+    wdir = os.path.join(os.getcwd(),"tokens")    
+    upload_dir(app_bucket, wdir)
     
-    # wdir = os.path.join(os.getcwd(),"build")
-    # delete_contents(bucket)
-    # upload_dir(bucket, wdir)
-    #show_objects(bucket)
+    #list_files(app_bucket)
+    #show_objects(app_bucket)
 
     

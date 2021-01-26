@@ -199,12 +199,13 @@ class CoinGeckoAPI:
 
     # ---------- Contract ----------#
     @list_args_to_comma_separated
-    def get_coin_info_from_contract_address_by_id(self, id, contract_address):
+    def get_coin_info_from_contract_address_by_id(self, pid, contract_address):
         """Get coin info from contract address"""
-
+        #pid = "eth"
         api_url = '{0}coins/{1}/contract/{2}'.format(
-            self.api_base_url, id, contract_address)
+            self.api_base_url, pid, contract_address)
 
+        print (api_url)
         return self.__request(api_url)
 
     @list_args_to_comma_separated
