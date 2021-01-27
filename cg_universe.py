@@ -21,7 +21,7 @@ def get_logo(TOKEN):
 #dict_keys(['id', 'symbol', 'name', 'asset_platform_id', 'block_time_in_minutes', 'hashing_algorithm', 'categories', 'public_notice', 'additional_notices', 'localization', 'description', 'links', 'image', 'country_origin', 'genesis_date', 'sentiment_votes_up_percentage', 'sentiment_votes_down_percentage', 'market_cap_rank', 'coingecko_rank', 'coingecko_score', 'developer_score', 'community_score', 'liquidity_score', 'public_interest_score', 'market_data', 'community_data', 'developer_data', 'public_interest_stats', 'status_updates', 'last_updated', 'tickers'])
 
 
-def get_list():
+def get_sym_list():
     syms = list()
     with open('addr.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=';')
@@ -35,6 +35,22 @@ def get_list():
                 line_count += 1
                 syms.append(row)
     return syms
+
+def get_tokens():
+    slist = get_sym_list()
+    tokens = list()
+    for s in slist[:]:
+        if s[-1] != "NA":
+            tokens.append(s)
+    return tokens
+
+def get_tokens_syms():
+    slist = get_sym_list()
+    tokens = list()
+    for s in slist[:]:
+        if s[-1] != "NA":
+            tokens.append(s[1])
+    return tokens
 
 def na(x):
     if x == None:
@@ -128,22 +144,44 @@ def fetch():
     fetch_syms_addr(lastsym, startFilter)
 
 def match_file():
-    slist = get_list()
+    slist = get_sym_list()
     with open('addrmap.csv','w') as f:
         for l in slist:
             ca = l[-1]
             #'id';'symbol';'name';'address';'asset_platform_id';'coingecko_rank';'market_cap_rank';'homepage';'contract
             s = l[1]
             p = l[3]
+            xid = l[0]
             if ca != "NA" and p == "ethereum":
-                print (ca,s)
-                f.write(ca + ';' + s + '\n')
+                print (ca,xid,s)
+                f.write(ca + ';' + xid + ';' + s + '\n')
+
+def map_file():
+    idmap = dict()
+    with open('addrmap.csv','r') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=';')
+        line_count = 0
+        for row in csv_reader:
+            if line_count == 0:
+                print(f'Column names are {", ".join(row)}')
+                line_count += 1
+            else:                
+                line_count += 1
+                #idmap[row[1]] = row[2]
+                idmap[row[2]] = row[1]
+    return idmap
+
 
 if __name__=='__main__':
+    idmap = map_file()
+    print (idmap)
     # syms_addr()
-    match_file()
+    #match_file()
     
-    # aid = 'ethereum' #info['asset_platform_id']
-    # contract_address = "0x38c4102d11893351ced7ef187fcf43d33eb1abe6"
-    # xinfo = cgapi.get_coin_info_from_contract_address_by_id(aid, contract_address)
-    # print (xinfo)
+    #aid = 'ethereum' #info['asset_platform_id']
+    #contract_address = "0x38c4102d11893351ced7ef187fcf43d33eb1abe6"
+    #wise = '0x66a0f676479cee1d7373f3dc2e2952778bff5bd6'
+    #contract_address = wise
+    #let zrx = '0xe41d2489571d322189246dafa5ebde1f4699f498';
+    #xinfo = cgapi.get_coin_info_from_contract_address_by_id(aid, contract_address)
+    #print (xinfo)

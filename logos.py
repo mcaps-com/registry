@@ -12,6 +12,8 @@ import requests
 import shutil
 import os
 
+from cg_universe import *
+
 #= `https://raw.githubusercontent.com/mcaps-com/registry/master/tokens/${symbol}/logo.png`
 
 app_bucket = "app.rapidtrade.io"
@@ -23,15 +25,18 @@ from coingecko import CoinGeckoAPI
 cgapi = CoinGeckoAPI()
 
 def store_logo(xid):
+    """ store a logo given a CG id. path is defined by symbol """
     info = cgapi.get_coin_by_id(xid)
     imgurl = info['image']['large']
-    print ("> ",xid,imgurl)
-    dest_fpath = os.getcwd() + '/tokens/' + xid
+    sym = info['symbol']
+    print ("store ",sym,imgurl)
+    dest_fpath = os.getcwd() + '/tokens/' + sym
     print ("dest_fpath ",dest_fpath)
     if not os.path.exists(dest_fpath):
         os.mkdir(dest_fpath)
-    path = dest_fpath + '/logo.png'
-    download_file(imgurl, path)
+    path = dest_fpath + '/logo.png'    
+    if not os.path.exists(path):
+        download_file(imgurl, path)
 
 def store_all():
 
@@ -59,10 +64,42 @@ def download_file(url, local_filename):
 
     return local_filename
 
-def download_logo(cid):
-    info = cgapi.get_coin_by_id(cid)
-    url_img = info['image']['large']
-    #print ()
-    download_file(url_img, cid + '.png')
+#sym = 'paid-network'
+#sym = 'tosdis'
+#store_logo(sym)
 
-store_logo('tosdis')
+def store_all(tokens):
+    #tokens = get_tokens()
+    #slist = get_sym_list()
+    print ("tokens ",len(tokens))
+    #'id';'symbol';'name';'address';'asset_platform_id';'coingecko_rank';'market_cap_rank';'homepage';'contract
+    for t in tokens[:]:
+        #sym = t[0]
+        print ("store ",t)
+        try:
+            store_logo(t)
+        except:
+            continue
+
+
+# get the directory contents which are symbols
+# and map to id
+idmap = map_file() # symbol => id
+syms = get_tokens_syms()
+s = list()
+ex = os.listdir("./tokens")
+for x in syms: 
+    if x not in ex:
+        try:
+            s.append(idmap[x])
+        except:
+            print ("not found ",x)
+#print (syms)
+
+print ("existing ",len(ex))
+print ("to update ",len(s))
+print (ex[:10])
+print ('zcn' in ex)
+print ('zcn' in s)
+#print (s[:10])
+store_all(s[:])
