@@ -26,7 +26,11 @@ cgapi = CoinGeckoAPI()
 
 def store_logo(xid):
     """ store a logo given a CG id. path is defined by symbol """
-    info = cgapi.get_coin_by_id(xid)
+    try:
+        info = cgapi.get_coin_by_id(xid)
+    except:
+        print ("no info for ", xid)
+        return
     imgurl = info['image']['large']
     sym = info['symbol']
     print ("store ",sym,imgurl)
@@ -37,6 +41,8 @@ def store_logo(xid):
     path = dest_fpath + '/logo.png'    
     if not os.path.exists(path):
         download_file(imgurl, path)
+    else:
+        print ("already exists ",path)
 
 def store_all():
 
@@ -79,6 +85,7 @@ def store_all(tokens):
         try:
             store_logo(t)
         except:
+            print ("failed to store ",t)
             continue
 
 
@@ -99,7 +106,15 @@ for x in syms:
 print ("existing ",len(ex))
 print ("to update ",len(s))
 print (ex[:10])
-print ('zcn' in ex)
-print ('zcn' in s)
-#print (s[:10])
-store_all(s[:])
+print (s[:10])
+#store_all(s[:])
+
+print ('pipt' in ex)
+#print ('morc' in s)
+
+# info = cgapi.get_coin_by_id('999')
+# print (info)
+
+ctr = '0xbf05571988daab22d33c28bbb13566eae9dee626'
+info = cgapi.get_info_from_contract(ctr)
+print (info['symbol'])
