@@ -208,6 +208,15 @@ class CoinGeckoAPI:
         print (api_url)
         return self.__request(api_url)
 
+    def get_info_from_contract(self, contract_address):
+        """Get coin info from contract address"""
+        pid = "ethereum"
+        api_url = '{0}coins/{1}/contract/{2}'.format(
+            self.api_base_url, pid, contract_address)
+
+        print (api_url)
+        return self.__request(api_url)        
+
     @list_args_to_comma_separated
     def get_coin_market_chart_from_contract_address_by_id(self, id, contract_address, vs_currency, days):
         """Get historical market data include price, market cap, and 24h volume (granularity auto) from a contract address"""

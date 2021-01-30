@@ -88,33 +88,37 @@ def store_all(tokens):
             print ("failed to store ",t)
             continue
 
+def update_all():
 
-# get the directory contents which are symbols
-# and map to id
-idmap = map_file() # symbol => id
-syms = get_tokens_syms()
-s = list()
-ex = os.listdir("./tokens")
-for x in syms: 
-    if x not in ex:
-        try:
-            s.append(idmap[x])
-        except:
-            print ("not found ",x)
-#print (syms)
+    # get the directory contents which are symbols
+    # and map to id
+    idmap = map_file() # symbol => id
+    syms = get_tokens_syms()
+    s = list()
+    ex = os.listdir("./tokens")
+    for x in syms: 
+        if x not in ex:
+            try:
+                s.append(idmap[x])
+            except:
+                print ("not found ",x)
+    #print (syms)
 
-print ("existing ",len(ex))
-print ("to update ",len(s))
-print (ex[:10])
-print (s[:10])
-#store_all(s[:])
+    print ("existing ",len(ex))
+    print ("to update ",len(s))
+    print (ex[:10])
+    print (s[:10])
+    #store_all(s[:])
 
-print ('pipt' in ex)
-#print ('morc' in s)
+    print ('pipt' in ex)
+    #print ('morc' in s)
 
-# info = cgapi.get_coin_by_id('999')
-# print (info)
+    # info = cgapi.get_coin_by_id('999')
+    # print (info)
 
-ctr = '0xbf05571988daab22d33c28bbb13566eae9dee626'
-info = cgapi.get_info_from_contract(ctr)
-print (info['symbol'])
+    ctr = '0xbf05571988daab22d33c28bbb13566eae9dee626'
+    info = cgapi.get_info_from_contract(ctr)
+    print (info['symbol'])
+
+t = 'paid-network'
+store_logo(t)    
